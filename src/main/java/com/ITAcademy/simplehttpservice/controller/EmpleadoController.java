@@ -1,0 +1,46 @@
+package com.ITAcademy.simplehttpservice.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ITAcademy.simplehttpservice.dto.UserResponseDto;
+import com.ITAcademy.simplehttpservice.service.IUserService;
+
+@RestController
+@RequestMapping("/api")
+public class EmpleadoController {
+	
+    private final IUserService userService;
+
+    @Autowired
+    public EmpleadoController(IUserService userService){
+        this.userService = userService;
+    }
+
+    @GetMapping("/test")
+    public String helloGradle() {
+        return "Hello Gradle!";
+    }
+    @GetMapping("/user/{uuid}")
+    public ResponseEntity<UserResponseDto> updatePrescription(
+            @PathVariable(name="uuid") String user) throws Exception {
+
+
+        UserResponseDto userResponseDto = userService.getUser("pp");
+
+        System.out.println(userResponseDto.getName());
+        System.out.println(userResponseDto.getSurname());
+        System.out.println(userResponseDto.getGender());
+
+        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+
+    }
+}
+
+
